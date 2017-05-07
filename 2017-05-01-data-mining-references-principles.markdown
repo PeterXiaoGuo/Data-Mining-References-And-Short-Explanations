@@ -119,7 +119,7 @@ Overally the end result is to fit some kind of grouping on the data. The groupin
 5. Set the mean in each group to be new centroid.
 6. Repeat from 3. step until group/cluster assignement does not change.   
 
-*K-meas++*
+*K-means++*
 
 Differs from previous only in step 2. Everything else is the same. Still very easy.   
 In step 2.  Basic Principle is to choose 1. centroid at random, second centroid form dataset with assigning higher probability to elements, that are further away from centroid1. Choose third centroid
@@ -135,8 +135,7 @@ https://datasciencelab.wordpress.com/2014/01/15/improved-seeding-for-clustering-
 There are ultimately only a finite number of cluster assignments, so if the algorithm ran on forever, you would end up passing through a given assignment more than once. This is impossible because any reasonable K-means algorithm will strictly reduce the error on each step, so you could not possibly come back to the same assignment.
 
 
-### hierachical
-
+### HIERACHICAL CLUSTERING  
 Hierarchicalt Aggromakgtkrnnfjnmaletive
 * HIERACHCAL TREES
 
@@ -144,7 +143,108 @@ Hierarchicalt Aggromakgtkrnnfjnmaletive
 
 ## Evaluation of result
 
-entropy http://www.saedsayad.com/decision_tree.htm
-purity
-observational analysis
-sse min
+* Entropy http://www.saedsayad.com/decision_tree.htm
+* Purity
+
+
+* SSE of clusters
+
+
+
+## Decision Trees
+
+[Explanation](http://www.saedsayad.com/decision_tree.htm)
+[Gini index](https://stats.stackexchange.com/questions/77213/computing-the-gini-index)
+[Explanation with example](https://github.com/AndresNamm/Classification-Techniques-StepByStep/blob/master/StepByStepHuntAlgorithmDecisionTreeSiniIndex.ipynb)
+
+This is a method of supervised learning. We have some labels, classes which we want to classify elements to from the dataset.
+
+#### Definitions
+
+* Splits - can be binary or more
+* Label - classes we are looking to assign the dataset
+* Attribute - based on these we perform predictions.
+* Node in tree  - If we split based on some attribute, then every different value of that attribute forms a separate node. We calculate Gini index on each node separately based on the class distribution on that node. The
+* Gini index - the lower the better.
+* Leave - Node which we dont split anymore, because we have reached some stopping condition.
+
+
+#### Purpose
+
+Assign dataset elements into labels/classes. Labels can be binary or discrete. Cant be Continuous. Then its regression.  
+
+#### Hunts Algorithm
+
+
+#### Idea
+
+1. Choose attribute with lowest Gini Index.
+2. Split dataset based on that attribute.
+3. Recurively perform 1,2 until stopping condtion on all subtreest.
+
+
+**Other criterias for choosing the best attribute for split**
+
+* Entropy
+* Information Gain  - Decrease in Entropy  
+
+#### Stopping Conditions on node.  
+
+1. Every element in node  belongs to same target class, eqv to GINI = 0
+2. Node becomes empty.
+
+
+#### How to deal with contiuous attributes
+
+We have to split those attributes into segments. Either binary or something else. It seems logical, that we would like to choose a split so the Gini index would be the lowest
+
+_Idea_
+
+Lets say our Attribute has N different values. We could just try all these different values as split. But that is expensive $O(N^{2})$ Operations. Because we have to recheck every dataelement again.
+
+Instead we
+
+1. Sort record non decreasingly.
+2. Start choosing the split attribute based on lowest value in attribute. Set the split higher. Now we have to reassign only elements that are smaller than the next attribute.
+
+This complexity is $O(N log(N))$
+
+_Above mentioned logic can be extended to multinomial splits as well in addition to only binary splits_
+
+#### Dealing with OverFitting e.g. Generalization errors
+
+* Pre Pruning - stop splitting the tree earlier
+  * Stop splitting when certain node has less than K (threshhold) elements
+  * Stop if further splitting would not improve Gini index or 0 information Gain.
+* Post pruning
+  * Predict Generalization Error = training error + 0.5 * # leaves If split does not improve this, then PRUNE
+
+
+# LAZY LEARNERS
+
+## K-NEAREST NEIGBHOURS
+
+Turn dataset into vectors. For every element that we predict, we just find K nearest distance-wize (EXAMPLE: EUCLIDEAN) elements in dataset. We classify new elements into the majority class of those K-nearest elements.
+
+* Curse of dimensionality - use PCA
+
+# NAIVE BAYES METHOD
+
+_Why GOOD_
+
+* No need to train.
+* Handles missing values Easily. Just skip this calculation
+* Fast
+
+
+Although this theory is based on Bayes theroem. Its simplest to understand this through this formula
+$P(C_{i}|X) = P(X_{1}|C_{i})P(X_{2}|C_{i})...P(X_{N}|C_{i})P(C_{i})$
+Which intuitively is probabilities of class i having different X attributes * the probabiliy of class appearing.
+
+_Things to consider with this method_
+
+If 1 of the condiditional probabilities is 0, then the entire expression becomes 0.
+
+_Fix_
+* We can instead of exact probability calculate the Laplace
+$P(X_{i}|C)=\frac{N_{ic}+1}{N_{c}+#number of classes}
