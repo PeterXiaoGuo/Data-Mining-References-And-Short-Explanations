@@ -92,9 +92,59 @@ There are some problems with this approach as well
 * Matrixes are Super Sparce so a lot of memory is used.
   * We have 1 billion pages. Matrix M would have billion**2 entries. That is a lot to keep in main memory. Because of random jumps, there non zero entries in the matrix
     * To save space, w have to adjust the formula.
-    * Initially formula r=(bM+(1-b)* U),  is a matrix with same dimensions as M but, every element in it equals 1/N 
+    * Initially formula r=(bM+(1-b)* U),  is a matrix with same dimensions as M but, every element in it equals 1/N
     * through some organization r=bMr+[(1-b)* U ] second part is constant. Dont have to keep it in mamory. now we can transform M, sor only nozero links are shown.
 
 
 
 I have added Mauro Sozio-s lecture notes with specific examples of overcoming these problems.
+
+
+# CLUSTERING
+
+
+Clustering Performs unsupervised machine learning. This is actually a super-interesting topic, which has a lot of relations to Gibbs sampling, Latent Dirichle Allocation Posterior approximation, Bayesian analysis, likelihood maximization, Convergence, Markov Chains, Monte Carlo methods.
+
+Overally the end result is to fit some kind of grouping on the data. The grouping itself usually assume some certain model.
+
+## Methods
+
+### Non-hierachical K-means
+
+*K-means*
+1. Choose K  
+2. Randomly initiliaze K centroids on data  
+3. Assign every datapoint to the group with closest(Euclidean or some other measure) centroid   
+4. Find mean in each group.
+5. Set the mean in each group to be new centroid.
+6. Repeat from 3. step until group/cluster assignement does not change.   
+
+*K-meas++*
+
+Differs from previous only in step 2. Everything else is the same. Still very easy.   
+In step 2.  Basic Principle is to choose 1. centroid at random, second centroid form dataset with assigning higher probability to elements, that are further away from centroid1. Choose third centroid
+with assigning higher probability to datapoints that are further away from centroid 1 and 2.
+Principles and math of assignement explained very well on slides in folder Cluster. Also an example executed there.
+Some tutorials as well specifying how the initialization works  
+http://stats.stackexchange.com/questions/135656/k-means-a-k-a-scalable-k-means -- not exactly same thing, but explains concept.
+https://datasciencelab.wordpress.com/2014/01/15/improved-seeding-for-clustering-with-k-means/ -- not too good in explainint
+
+
+*Why k-means always terminates*
+
+There are ultimately only a finite number of cluster assignments, so if the algorithm ran on forever, you would end up passing through a given assignment more than once. This is impossible because any reasonable K-means algorithm will strictly reduce the error on each step, so you could not possibly come back to the same assignment.
+
+
+### hierachical
+
+Hierarchicalt Aggromakgtkrnnfjnmaletive
+* HIERACHCAL TREES
+
+### Improvements to clusterings
+
+## Evaluation of result
+
+entropy http://www.saedsayad.com/decision_tree.htm
+purity
+observational analysis
+sse min
