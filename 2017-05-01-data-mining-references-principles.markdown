@@ -12,9 +12,12 @@ date: "2017-05-01 19:12"
 
 **Notes**
 
+
+
 * Basket - This definition comes from the fact, thar AR rulest are most often mined in stores to predict what goods are bought together to recommend stuff to people who buy some goods. In that case, to find these rules, a lot of baskets that are gone through to detect some rules and there comes the term basket. More overally association rules are generated based on some co-occurences of items in groups.
-* Support - _Itemset Occurence in basket/# of all baskets_. Itemset can be the size of 1..k. For example how many times beer and diapers occured together in all the baskets.
-* Confidence - Itemset occurence together with item B / All itemset occurences. Example: If We want to know the confidence of a rule Beer->Diapers, we divide the number of times beer and diapers occured together with the number beer occured overall.
+* Support - $\frac{\text{number of baskets with itemset}}{\text{number of all baskets}}$. Itemset can be the size of 1..k. For example how many times beer and diapers occured together in all the baskets.
+* $Confidence(a=>b)=\frac{Support(a \cap b)}{Support(a)}$ Itemset occurence together with item B / All itemset occurences. Example: If We want to know the confidence of a rule Beer->Diapers, we divide the number of times beer and diapers occured together with the number beer occured overall.
+* $Lift=\frac{Support(a\cap b)}{Support(a)* Support(b)}$ - Exactly like covariance.
 * Pass over the data - Iteration over the dataset
 * The most computationally expensive part in finding association rules is finding the itemsets.
   * If you have the itemsets with their supports, then to find an association rule for itemset1->some elements with confidence C, you have to find all all itemsets which containt itemset1 + additional elements that have higher support than C*support(itemset1). This is because C<support(S1 and S2)/support(S1)=confidence => C * support(S1) < support(S1 and S2).
@@ -50,7 +53,6 @@ The solution must come from this overall information we can get up from the stru
 ### Methods to solve
 
 PAGERANK vector - importance of web-pages in n*1 vector form. Usually marked as r
-
 
 
 To do this we are going to reshape this graph in a matrix form, where every row in matrix M is considered as 1 web-page i and every column j consist of nodes going out from web-page j. That all together means that element Mij  the outgoing link from node j to node i.  **This means, that matrix M has to be a column Stochastic Matrix, that means every column sums up to 1** Also every element in 1 column is equal, because importance to other web-pages is shared equally to outgoing web-pages.
@@ -168,6 +170,13 @@ This is a method of supervised learning. We have some labels, classes which we w
 * Gini index - the lower the better.
 * Leave - Node which we dont split anymore, because we have reached some stopping condition.
 
+**Attributes can be**
+
+– Nominal (or categorical), have 2 or more
+categories, no order.E.g.:country (USA, Spain)
+– Ordinal, 2 or more categories but can ordered
+or ranked. E.g. T-Shirt size: S,M,L,XL,XXL
+– Continuous Ordinal, e.g. temperature, salary
 
 #### Purpose
 
@@ -228,9 +237,9 @@ Turn dataset into vectors. For every element that we predict, we just find K nea
 
 * Curse of dimensionality - use PCA
 
-# NAIVE BAYES METHOD
+## NAIVE BAYES METHOD
 
-_Why GOOD_
+### Why GOOD
 
 * No need to train.
 * Handles missing values Easily. Just skip this calculation
@@ -241,10 +250,57 @@ Although this theory is based on Bayes theroem. Its simplest to understand this 
 $P(C_{i}|X) = P(X_{1}|C_{i})P(X_{2}|C_{i})...P(X_{N}|C_{i})P(C_{i})$
 Which intuitively is probabilities of class i having different X attributes * the probabiliy of class appearing.
 
-_Things to consider with this method_
+###Things to consider with this method
 
 If 1 of the condiditional probabilities is 0, then the entire expression becomes 0.
 
 _Fix_
 * We can instead of exact probability calculate the Laplace
-$P(X_{i}|C)=\frac{N_{ic}+1}{N_{c}+#number of classes}
+$P(X_{i}|C)=\frac{N_{ic}+1}{N_{c}+\text{# classes}}$
+
+
+### How to deal with Continuous cases
+
+* Discretazation, a.k.a finding the best split again like with decision trees.
+* Model based - assume model DISTRIBUTION on data and calculate the probability based on model
+  * Normal DISTRIBUTION - heights for example
+  * Binomial DISTRIBUTION word occurences
+# Classifier Evaluation
+
+_References_
+
+* [Confusion Matrix/Cost Matrix Based Methods](http://www.dataschool.io/simple-guide-to-confusion-matrix-terminology/)    
+* [Another Tutorial about same thing ](http://www2.cs.uregina.ca/~dbd/cs831/notes/confusion_matrix/confusion_matrix.html)
+
+
+
+
+
+_Metrics to test classifier goodness_
+
+$$
+Confusion Matrix = \begin{bmatrix}   & \text{PREDICT NO} & \text{PREDICT YES} \\ \text{ACTUAL NO} & TN & FP \\ \text{ACTUAL YES} & FN & TP  \end{bmatrix}  
+$$
+
+$Accuracy=\frac{TP+TN}{TP+TN+FP+FN}$  
+$Precision=\frac{TP}{TP+FP}$ When I predict yes, how often am I correct.  
+$Recall=\frac{TP}{TP+FN}$ How many positive examples I predict accuratly.
+$\text{F-value}=\frac{Precision*Recall}{Precision + Recall} * \text{Harmonic Mean }$
+$\text{Harmonic Mean}(e_{1},e_{2},e_{3})=\frac{1}{\frac{1}{e_{1}}+\frac{1}{e_{2}}+\frac{1}{e_{2}}}$
+
+
+_Methods to evaluate Classification Accuracy_
+
+* Split data into $\alpha*data$ training and $(1-\alpha)* data$ test set.  - Wastes some data
+* Random subsampling:
+
+  1. Sample sample1, sample2
+  2. Train on sample1
+  3. Test on sample2  
+  4. Repeat
+* Cross Validation K fold
+  1. Partition data into K disjoint sets
+  2. Train on k-1 sets, test on remaining one. Repeat k times, each subset being used exactly once. Compute average of results.
+* Bootstrapping
+  1. Sample data
+  2. Replace it
