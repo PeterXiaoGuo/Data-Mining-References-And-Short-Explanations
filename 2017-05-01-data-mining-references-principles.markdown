@@ -69,7 +69,7 @@ Although these methods are not generally use, I still mention them, because they
 ##### Idea
 In this method, we consider the importance as the probability that we are going to end on each web-page at any time moment. For example, there exist a certain random web-surfer in the web, that endlessly surfs around the internet and we now want to know the probability that this random web-surfer is going to be at some web-page at random moment.
 
-What we can do here is to just simulate this experience and find out the overall amounts of times random surfer visited each web-page among all the times. We don't actually have to simulate this random surfer, because we can find the probabilities using matrix multiplication.  This is described very well in the "Best tutorial" I previously mentioned.
+What we can do here is to just simulate this experience and find out the overall amounts of times random surfer visited each web-page among all the times. We don´t actually have to simulate this random surfer, because we can find the probabilities using matrix multiplication.  This is described very well in the "Best tutorial" I previously mentioned.
 Overally what we do in this process is:
 
 ##### Implementation of idea
@@ -278,13 +278,25 @@ _References_
 
 _Metrics to test classifier goodness_
 
+
+Im gonna use A very simple system 
+
++ TT - predict true, is true - true positive TP
++ FF - predict false, is false - true negative TN
++ FT - predict false, is true - false negative FN
++ TF - predict true, is false - false positive FP
+
+
+
+
+
 $$
 Confusion Matrix = \begin{bmatrix}   & \text{PREDICT NO} & \text{PREDICT YES} \\ \text{ACTUAL NO} & TN & FP \\ \text{ACTUAL YES} & FN & TP  \end{bmatrix}  
 $$
 
-$Accuracy=\frac{TP+TN}{TP+TN+FP+FN}$  
-$Precision=\frac{TP}{TP+FP}$ When I predict yes, how often am I correct.  
-$Recall=\frac{TP}{TP+FN}$ How many positive examples I predict accuratly.
+$Accuracy=\frac{TT+FF}{TT+FF+FT+TF}$  
+$Precision=\frac{TT}{TT+TF}$ When I predict yes, how often am I correct.  
+$Recall=\frac{TT}{TT+FT}$ How many positive examples I predict accuratly.
 $\text{F-value}=\frac{Precision*Recall}{Precision + Recall} * \text{Harmonic Mean }$
 $\text{Harmonic Mean}(e_{1},e_{2},e_{3})=\frac{1}{\frac{1}{e_{1}}+\frac{1}{e_{2}}+\frac{1}{e_{2}}}$
 
